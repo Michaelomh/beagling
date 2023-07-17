@@ -8,6 +8,11 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Beagling',
   description: 'Track your habits with Beagling!',
+  authors: { name: "Michael Ong", url: "http://datayse.com" },
+  keywords: ["tracker", "habit forming", "tracking", "habits", "personal development", "improvement"],
+  viewport: { width: "device-width", initialScale: 1, maximumScale: 1, userScalable: false },
+  appleWebApp: { capable: true, title: "My Website", statusBarStyle: "black-translucent" },
+  creator: "Michael Ong"
 }
 
 export default function RootLayout({
