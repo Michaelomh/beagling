@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { SubmitButton } from "./SubmitButton";
 
 export default function Home() {
+
   return (
     <div className="p-4 text-center">
       <div className="flex flex-col items-center">
@@ -23,7 +25,7 @@ export default function Home() {
             <Button>+1</Button>
           </div>
         </div>
-        <Button className="w-full">Submit</Button>
+        <SubmitButton />
       </div>
     </div>
   )
