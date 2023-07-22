@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2 } from "lucide-react";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-export default function Records() {
+export default async function Records() {
+  const supabase = createServerComponentClient({ cookies });
+
+  const { data } = await supabase.from("records").select();
+  console.log(data)
+
   return (
     <div className="text-center">
       <div className="px-4 bg-slate-700 flex justify-between text-white py-2">

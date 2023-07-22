@@ -10,11 +10,8 @@ export const Navbar = () => {
   
   return (
     <div className="h-12 flex justify-between items-center px-4 bg-blue-300">
-      <MenuIcon onClick={() => {
-        console.log('menu icon clicked')
-        setMenuShowing(true)
-      }}/>
-      <span>Push up Tracker{isMenuShowing.toString()}</span>
+      <MenuIcon onClick={() => setMenuShowing(true)}/>
+      <span>Push up Tracker</span>
       <div className="flex flex-row gap-2">
         <Link href={"/records"}>
           <LayoutList />
