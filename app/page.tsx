@@ -1,14 +1,14 @@
 'use client'
 
 import { Counter } from "@/components/pages/project/Counter";
-import MonthlyStatsBox from "@/components/pages/project/MonthlyStatsBox";
-import StatsBox from "@/components/pages/project/StatsBox";
+import MonthlyStats from "@/components/pages/project/MonthlyStats";
+import YearlyStats from "@/components/pages/project/YearlyStats";
 
 export default function Home() {
   return (
     <div className="p-4 grid gap-4 grid-rows-[1fr_1fr_200px] h-[calc(100%-48px)]">
-      <StatsBox title="This Year" count={3720} />
-      <MonthlyStatsBox  />
+      <YearlyStats />
+      <MonthlyStats  />
       <Counter />
     </div>
   )
