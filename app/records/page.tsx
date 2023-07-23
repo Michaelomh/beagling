@@ -1,49 +1,70 @@
-import { Button } from "@/components/ui/button";
-import { Edit2, Trash2 } from "lucide-react";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+"use client"
 
-export default async function Records() {
-  const supabase = createServerComponentClient({ cookies });
+import { supabase } from "@/utils/SupabaseClient";
+import { Fragment, useEffect, useState } from "react";
+import { RecordType } from "@/types/records.types";
+import { getFirstDayOfMonth } from "@/utils/Date";
+import { RecordRow } from "./components/RecordRow";
+import { RecordHeader } from "./components/RecordHeader";
 
-  const { data } = await supabase.from("records").select();
-  console.log(data)
+export default function Records() {
+  const [records, setRecords] = useState<Record<string, RecordType[]>>()
+  
+  const fetchAllRecords = async () => {
+    try {
+      const { data, error } = await supabase
+      .from('records')
+      .select('created_at,count')
+      .order('created_at', {ascending: true})
+      
+      
+      if (data) {
+        setRecords(groupRecordByMonth(data));
+      }
+    } catch(error) {
+      console.error(error)
+    }
+  }
+  function groupRecordByMonth(records: RecordType[] | null) {
+    if (!records) return {}
+    const groupedByMonth: Record<string, RecordType[]> = {};
+    records.forEach((record) => {
+      const createdAtDate = getFirstDayOfMonth(record.created_at)  
+      if (!groupedByMonth[createdAtDate]) {
+        groupedByMonth[createdAtDate] = [];
+      }
+      groupedByMonth[createdAtDate].push(record);
+    });
+  
+    return groupedByMonth;
+  }
+
+  useEffect(() => {
+    fetchAllRecords()
+  }, [])
 
   return (
-    <div className="text-center">
-      <div className="px-4 bg-slate-700 flex justify-between text-white py-2">
-        <h1>Jul 2023</h1>
-        <h1>520 / 600</h1>
-      </div>
-      <div className="px-4 flex flex-col ">
-        <div className="flex items-center justify-between py-2 [&:not(:first-child)]:border-t-2 border-t-slate-200">
-          <div>
-            <span className="text-slate-600 text-md">12th Jul 14:25:01</span>
-          </div>
-          <div className="flex gap-2 items-center">
-            <span className="font-bold mr-2 text-md text-slate-600">40</span>
-            <Button size="icon">
-              <Edit2 size={16} strokeWidth={1.5}/>
-            </Button>
-            <Button size="icon">
-              <Trash2 size={16} strokeWidth={1.5}/>
-            </Button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between [&:not(:first-child)]:border-t-2 border-t-slate-200 py-2">
-          <div>
-            <span>13th Jul 14:25:01</span>
-          </div>
-          <div className="flex gap-2 items-center">
-            <span className="font-bold mr-2">40</span>
-            <Button size="icon">
-              <Edit2 size={16} strokeWidth={1.5}/>
-            </Button>
-            <Button size="icon">
-              <Trash2 size={16} strokeWidth={1.5}/>
-            </Button>
-          </div>
-        </div>
+    <div>
+      <div className="flex flex-col ">
+        {
+          records &&
+            Object.keys(records).map((month) => {
+              return (
+                <Fragment key={month}>
+                  <RecordHeader date={month} current={0} />
+                   {
+                    records[month].map((record) => {
+                      return (
+                        <Fragment key={record.created_at+record.count}>
+                          <RecordRow date={record.created_at} count={record.count} />
+                        </Fragment>
+                      )
+                    })
+                  }
+                </Fragment>
+              )
+            })
+        }
       </div>
     </div>
   )

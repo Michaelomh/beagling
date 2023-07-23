@@ -5,14 +5,6 @@ import { useEffect, useState } from "react";
 import StatsBox from "./StatsBox";
 import { FIRST_DAY_OF_CURRENT_MONTH, LAST_DAY_OF_CURRENT_MONTH } from "@/utils/Date";
 
-type Props = {
-  title: string;
-  count: number;
-  isShowTarget?: boolean;
-  target?: number;
-  isShowPercentage?: boolean;
-}
-
 const MonthlyStats = () => {
   const [totalCount, setTotalCount] = useState<number>(0);
 
