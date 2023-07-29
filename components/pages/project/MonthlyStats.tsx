@@ -27,7 +27,7 @@ const MonthlyStats = () => {
     fetchMonthlyRecords()
   }, [])
 
-  return <StatsBox title="This month (July)" count={totalCount} target={400} showTarget/>
+  return <StatsBox title="This month (July)" count={totalCount} />
 } 
 
 

@@ -6,9 +6,9 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 export const Counter = () => {
   const supabase = createClientComponentClient()
-  const [count, setCount] = useState<number>(20)
+  const [count, setCount] = useState<number>(30)
   const submitRecord = async () => {
-    const { data, error } = await supabase
+    await supabase
     .from('records')
     .insert([
       {
