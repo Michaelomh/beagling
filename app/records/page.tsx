@@ -6,6 +6,7 @@ import { RecordType } from "@/types/records.types";
 import { getFirstDayOfMonth } from "@/utils/Date";
 import { RecordRow } from "./components/RecordRow";
 import { RecordHeader } from "./components/RecordHeader";
+import { Button } from "@/components/ui/button";
 
 export default function Records() {
   const [records, setRecords] = useState<Record<string, RecordType[]>>()
@@ -14,10 +15,9 @@ export default function Records() {
     try {
       const { data, error } = await supabase
       .from('records')
-      .select('created_at,count')
-      .order('created_at', {ascending: true})
-      
-      
+      .select('id,created_at,count')
+      .order('created_at', {ascending: false})
+
       if (data) {
         setRecords(groupRecordByMonth(data));
       }
@@ -25,6 +25,17 @@ export default function Records() {
       console.error(error)
     }
   }
+
+  const subscribeToRecordsData = () => {
+    supabase.channel('records-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'records' },
+      () => fetchAllRecords()
+    )
+    .subscribe()
+  }
+
   function groupRecordByMonth(records: RecordType[] | null) {
     if (!records) return {}
     const groupedByMonth: Record<string, RecordType[]> = {};
@@ -41,6 +52,7 @@ export default function Records() {
 
   useEffect(() => {
     fetchAllRecords()
+    subscribeToRecordsData()
   }, [])
 
   return (
@@ -56,7 +68,7 @@ export default function Records() {
                     records[month].map((record) => {
                       return (
                         <Fragment key={record.created_at+record.count}>
-                          <RecordRow date={record.created_at} count={record.count} />
+                          <RecordRow date={record.created_at} count={record.count} id={record.id}/>
                         </Fragment>
                       )
                     })
