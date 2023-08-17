@@ -1,15 +1,15 @@
 "use client"
 
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext, useState } from "react"
 
-type AppSettingsProps= {
-  defaultProject: string,
-  showPercentageMonthly: boolean,
-  showPercentageYearly: boolean,
-  setDefaultProject: Dispatch<SetStateAction<string>>,
-  setShowPercentageMonthly: Dispatch<SetStateAction<boolean>>,
-  setShowPercentageYearly: Dispatch<SetStateAction<boolean>>,
-  updateMonthly: (state: boolean) => void,
+type AppSettingsProps = {
+  defaultProject: string
+  showPercentageMonthly: boolean
+  showPercentageYearly: boolean
+  setDefaultProject: Dispatch<SetStateAction<string>>
+  setShowPercentageMonthly: Dispatch<SetStateAction<boolean>>
+  setShowPercentageYearly: Dispatch<SetStateAction<boolean>>
+  updateMonthly: (state: boolean) => void
 }
 
 export const AppSettings = createContext<AppSettingsProps>({
@@ -20,7 +20,7 @@ export const AppSettings = createContext<AppSettingsProps>({
   showPercentageYearly: false,
   setShowPercentageYearly: () => {},
   updateMonthly: (state: boolean) => {},
-});
+})
 
 export function AppSettingsProvider({ children }: React.PropsWithChildren<{}>) {
   // TODO: Link getting the default from supabase
@@ -32,18 +32,20 @@ export function AppSettingsProvider({ children }: React.PropsWithChildren<{}>) {
   }
 
   return (
-    <AppSettings.Provider value={{  
-      defaultProject,
-      showPercentageMonthly,
-      showPercentageYearly,
-      setDefaultProject,
-      setShowPercentageMonthly,
-      setShowPercentageYearly,
-      updateMonthly,
-    }}>
+    <AppSettings.Provider
+      value={{
+        defaultProject,
+        showPercentageMonthly,
+        showPercentageYearly,
+        setDefaultProject,
+        setShowPercentageMonthly,
+        setShowPercentageYearly,
+        updateMonthly,
+      }}
+    >
       {children}
     </AppSettings.Provider>
-  );
+  )
 }
 
 export const useAppSettingsContext = () => useContext(AppSettings)

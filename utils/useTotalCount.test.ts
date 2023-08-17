@@ -8,7 +8,7 @@
 // TEST undefined, return 0
 // TEST null, return 0
 
-// ERRORS 
+// ERRORS
 // -----------------------
 // TEST {}[], without key, error.
 // TEST string[], typescript error?
