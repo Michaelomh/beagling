@@ -5,7 +5,11 @@ import { useEffect, useState } from "react"
 import StatsBox from "./StatsBox"
 import { FIRST_DAY_OF_CURRENT_MONTH, LAST_DAY_OF_CURRENT_MONTH } from "@/utils/Date"
 
-const MonthlyStats = () => {
+type props = {
+  trigger: boolean
+}
+
+const MonthlyStats = ({ trigger }: props) => {
   const [totalCount, setTotalCount] = useState<number>(0)
 
   const fetchMonthlyRecords = async () => {
@@ -18,7 +22,7 @@ const MonthlyStats = () => {
 
       setTotalCount(dbRecords?.map((r) => r.count).reduce((sum, a) => sum + a, 0))
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
     return null
   }
@@ -26,6 +30,10 @@ const MonthlyStats = () => {
   useEffect(() => {
     fetchMonthlyRecords()
   }, [])
+
+  useEffect(() => {
+    fetchMonthlyRecords()
+  }, [trigger])
 
   return <StatsBox title="This month (July)" count={totalCount} />
 }
