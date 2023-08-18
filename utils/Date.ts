@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 
 export const DEFAULT_DATE_UI_FORMATTER = "MMM DD YYYY"
-export const DEFAULT_DATETIME_UI_FORMATTER = "MMM DD, YYYY hh:mmA"
+export const DEFAULT_DATETIME_UI_FORMATTER = "MMM-DD, hh:mmA"
 export const DEFAULT_DATE_FORMATTER = "YYYY-MM-DD"
 
 export const FIRST_DAY_OF_CURRENT_MONTH = dayjs().startOf("month").format(DEFAULT_DATE_FORMATTER)

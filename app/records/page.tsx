@@ -6,7 +6,6 @@ import { RecordType } from "@/types/records.types"
 import { getFirstDayOfMonth } from "@/utils/Date"
 import { RecordRow } from "./components/RecordRow"
 import { RecordHeader } from "./components/RecordHeader"
-import { Button } from "@/components/ui/button"
 
 export default function Records() {
   const [records, setRecords] = useState<Record<string, RecordType[]>>()
@@ -57,9 +56,11 @@ export default function Records() {
       <div className="flex flex-col ">
         {records &&
           Object.keys(records).map((month) => {
+            const monthTotal = records[month].reduce((acc, rec) => acc + rec.count, 0)
+
             return (
               <Fragment key={month}>
-                <RecordHeader date={month} current={0} />
+                <RecordHeader date={month} current={monthTotal} />
                 {records[month].map((record) => {
                   return (
                     <Fragment key={record.created_at + record.count}>
