@@ -2,7 +2,9 @@
 
 import { supabase } from "@/utils/SupabaseClient"
 import { DEFAULT_DATETIME_UI_FORMATTER, formatDate } from "@/utils/Date"
-import { Trash2 } from "lucide-react"
+import { PenLine, Trash2 } from "lucide-react"
+
+import Link from "next/link"
 
 type Props = {
   id: number
@@ -28,8 +30,11 @@ export const RecordRow = ({ id, date, count }: Props) => {
       <div>
         <span>{formatDate(date, DEFAULT_DATETIME_UI_FORMATTER)}</span>
       </div>
-      <div className="flex gap-2 items-center">
-        <span className="font-bold mr-2">{count}</span>
+      <div className="flex gap-4 items-center">
+        <span className="font-bold">{count}</span>
+        <Link href={`/records/${id}`}>
+          <PenLine size={16} strokeWidth={1.5} />
+        </Link>
         <Trash2 size={16} strokeWidth={1.5} onClick={deleteRecord} />
       </div>
     </div>
